@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  db-pagamento:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'alurafood-pagamento'
+      MYSQL_USER: 'victor'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-pagamentos:/var/lib/mysql
+
+  db-pedido:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'alurafood-pedidos'
+      MYSQL_USER: 'victor'
+      MYSQL_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3305:3306'
+    volumes:
+      - db-pedidos:/var/lib/mysql
+
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - alurafood:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=victor
+      - RABBITMQ_DEFAULT_PASS=200694
+
+volumes:
+  db-pagamentos:
+  db-pedidos:
+  alurafood:
